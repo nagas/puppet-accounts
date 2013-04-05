@@ -1,0 +1,19 @@
+testuser1:
+  comment: Test User1
+  uid: '10042'
+  gid: '10042'
+  shell: /bin/bash
+  groups:
+  - users
+  password: *
+testuser2:
+    comment: Test User2
+    uid: '10043'
+    gid: '10043'
+    shell: /bin/bash
+    groups:
+    - users
+    password: *
+    nodes:
+    - somenode.example.com
+    - !ruby/regexp '/.*\.testuser2\.example\.com$/'
