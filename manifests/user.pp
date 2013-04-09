@@ -25,7 +25,7 @@ define accounts::user(
   validate_bool($managehome)
 
   if ( $state == 'present' and
-    ((member($nodes, $clientcert) or member($nodes, 'all'))) ) {
+    ((member_regex($nodes, $clientcert) or member_regex($nodes, 'all'))) ) {
     $ensure = 'present'
   } else {
     $ensure = 'absent'
