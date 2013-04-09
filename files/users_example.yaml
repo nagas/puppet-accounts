@@ -1,19 +1,20 @@
 testuser1:
+  state: present 
+  shell: /bin/bash 
   comment: Test User1
   uid: '10042'
   gid: '10042'
-  shell: /bin/bash
-  groups:
-  - users
-  password: *
+  membership: minimum
+  password: '$1$.AI9lnNC$X0LwZr2hD8HvxSMTHWZCK.' 
 testuser2:
     comment: Test User2
     uid: '10043'
     gid: '10043'
     shell: /bin/bash
-    groups:
-    - users
     password: *
+    groups:
+    - users 
+    - somegroup
     nodes:
     - somenode.example.com
     - !ruby/regexp '/.*\.testuser2\.example\.com$/'

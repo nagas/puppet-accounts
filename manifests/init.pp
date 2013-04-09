@@ -1,7 +1,7 @@
 class accounts(
-  $users_yml = undef,
+  $users_yaml = undef,
   $purge = false,
-  $skip_users = [],
+  $skip_sys_users = true,
 ) {
   case $::osfamily {
     RedHat: {
@@ -14,15 +14,21 @@ class accounts(
     }
   }
 
+  if ! ($users_yaml) {
+    fail("The ${module_name} module requires path to yaml containing users definitions")
+  }
+
+  validate_bool($purge)
+
   User  { provider => $user_provider }
   Group { provider => $group_provider }
 
-  create_resources('@accounts::user', loadyaml($users_yml),
+  create_resources('@accounts::user', loadyaml($users_yaml),
                   { 'nodes' => ['all'], 'state' => 'present' })
   Accounts::User <| |>
 
   resources {'user':
     purge              => $purge,
-    unless_system_user => $skip_users,
+    unless_system_user => $skip_sys_users,
   }
 }

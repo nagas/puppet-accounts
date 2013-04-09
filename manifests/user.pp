@@ -8,7 +8,6 @@ define accounts::user(
   $groups     = [],
   $membership = 'inclusive',
   $password   = '!!',
-  $locked     = false,
   $sshkeys    = [],
   $managehome = true,
   $group      = $name,
@@ -16,9 +15,14 @@ define accounts::user(
 ) {
   $user = $name
 
-  if ! ($user) {
-    fail("The ${module_name} requires at least one parameter")
-  }
+  validate_re($state, ['present', 'absent'])
+  validate_re($membership, ['inclusive', 'minimum'])
+  validate_absolute_path($shell)
+  validate_absolute_path($home)
+  validate_array($nodes)
+  validate_array($sshkeys)
+  validate_array($groups)
+  validate_bool($managehome)
 
   if ( $state == 'present' and
     ((member($nodes, $clientcert) or member($nodes, 'all'))) ) {
@@ -27,28 +31,19 @@ define accounts::user(
     $ensure = 'absent'
   }
 
-  validate_re($ensure, '^present$|^absent')
+# just in case
+  validate_re($ensure, ['present', 'absent'])
 
-  validate_bool($locked)
-  validate_re($shell, '^/')
-
-  if $comment != undef {
-    validate_string($comment)
-  }
-
-  validate_re($home, '^/$|[^/]$')
   if $uid != undef {
     validate_re($uid, '^\d+$')
+  } else {
+    fail("uid attribute not set")
   }
   if $gid != undef {
     validate_re($gid, '^\d+$')
+  } else {
+    fail("gid attribute not set")
   }
-  validate_array($groups)
-  validate_re($membership, '^inclusive$|^minimum$')
-  if $password != undef {
-    validate_string($password)
-  }
-  validate_array($sshkeys)
 
   group { $group:
     ensure => $ensure,
@@ -64,8 +59,8 @@ define accounts::user(
     gid        => $gid,
     groups     => $groups,
     membership => $membership,
-    password   => '*',
-    require    => Group[$name,$groups]
+    password   => $password,
+    require    => $ensure? { 'present' => [Group[$name], Group[$groups]], default => [] },
   }
 
   if ( $managehome == true ) {
@@ -91,7 +86,7 @@ define accounts::user(
       mode    => '0600',
       owner   => $user,
       group   => $group,
-      source  => "puppet:///files/ssh_keys/${user}.pub",
+      content => $ssh_keys,     
       require => File["${home}/.ssh"]
     }
 
