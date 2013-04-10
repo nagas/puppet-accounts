@@ -1,9 +1,8 @@
 #
-# member.rb
+# member_regex.rb
+# see: https://github.com/puppetlabs/puppetlabs-stdlib/pull/141
 #
 
-# TODO(Krzysztof Wilczynski): We need to add support for regular expression ...
-# TODO(Krzysztof Wilczynski): Support for strings and hashes too ...
 
 module Puppet::Parser::Functions
   newfunction(:member_regex, :type => :rvalue, :doc => <<-EOS
@@ -11,11 +10,11 @@ This function determines if a variable is a member of an array.
 
 *Examples:*
 
-    member(['a','b'], 'b')
+    member_regex(['a','b'], 'b')
 
 Would return: true
 
-    member(['a','b'], 'c')
+    member_regex(['a','b'], 'c')
 
 Would return: false
     EOS
