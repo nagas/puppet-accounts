@@ -45,6 +45,12 @@ define accounts::user(
     fail("gid attribute not set")
   }
 
+# Works only in puppet 3.2 with experimental language features enabled (parser = future)
+# Don't try to add user to groups that have not been defined (not exists on the server)
+  each($groups) |$grp| {
+    if !defined(Group[$grp]) { delete($groups, $grp) }
+  }
+
   group { $group:
     ensure => $ensure,
     gid    => $gid,
