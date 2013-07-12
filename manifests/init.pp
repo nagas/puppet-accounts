@@ -10,6 +10,9 @@ class accounts(
       $user_provider = useradd
       $group_provider = groupadd
     }
+    Debian: {
+      $supported = true
+    }
     default: {
       fail("The ${module_name} module is not supported on ${::osfamily}")
     }
