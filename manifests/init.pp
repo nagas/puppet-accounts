@@ -2,6 +2,7 @@ class accounts(
   $users_yaml = undef,
   $purge = false,
   $skip_sys_users = true,
+  $sshkeys_source = undef,
 ) {
   case $::osfamily {
     RedHat: {
@@ -19,6 +20,7 @@ class accounts(
   }
 
   validate_bool($purge)
+  validate_string($sshkeys_source)
 
   User  { provider => $user_provider }
   Group { provider => $group_provider }

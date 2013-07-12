@@ -14,6 +14,7 @@ define accounts::user(
   $nodes      = [],
 ) {
   $user = $name
+  $sshkeys_source = $accounts::sshkeys_source
 
   validate_re($state, ['present', 'absent'])
   validate_re($membership, ['inclusive', 'minimum'])
@@ -86,7 +87,7 @@ define accounts::user(
       mode    => '0600',
       owner   => $user,
       group   => $group,
-      content => $ssh_keys,     
+      source  => "${sshkeys_source}/${user}.pub", 
       require => File["${home}/.ssh"]
     }
 
