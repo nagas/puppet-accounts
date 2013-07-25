@@ -1,5 +1,5 @@
 class accounts(
-  $users_yaml = undef,
+  $users = undef,
   $purge = false,
   $skip_sys_users = true,
   $sshkeys_source = undef,
@@ -18,9 +18,9 @@ class accounts(
     }
   }
 
-  if ! ($users_yaml) {
-    fail("The ${module_name} module requires path to yaml containing users definitions")
-  }
+  #  if ! ($users_yaml) {
+  #  fail("The ${module_name} module requires path to yaml containing users definitions")
+  #}
 
   validate_bool($purge)
   validate_string($sshkeys_source)
@@ -28,7 +28,7 @@ class accounts(
   User  { provider => $user_provider }
   Group { provider => $group_provider }
 
-  create_resources('@accounts::user', loadyaml($users_yaml),
+  create_resources('@accounts::user', $users,
                   { 'nodes' => ['all'], 'state' => 'present' })
   Accounts::User <| |>
 

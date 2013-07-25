@@ -1,0 +1,11 @@
+---
+:backends:
+  - yaml
+
+:hierarchy:
+  - nodes/%{clientcert}
+  - users
+  - defaults
+
+:yaml:
+   :datadir: /etc/puppet/env/%{environment}/hiera

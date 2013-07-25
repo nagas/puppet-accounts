@@ -26,28 +26,34 @@ The puppet-accounts module requires:
 
 ##Usage
 
-Since the puppet-accounts module needs to know the location of the users yaml file, you cannot use Include-like class declaration. This will not work:
+Both Include- and Resource-like class declarations are supported. This module is rather meant to by used with puppet >= 3.x, where all class parameters can be lookup by hiera by default. Sample hiera configuration file can be found in examples directory.
 ```puppet
 include accounts
-```
-Instead you need to use Resource-like declaration:
-```puppet
 class {'accounts':
-  users_yaml => '/path/to/users.yaml',
 }
 ```
 Available parameters are:
 * `purge` - use its with care. When set to `true` (default: `no`), it will remove all users that are not managed by Puppet.
 * `skip_sys_users` - only has effect when used with `purge => true` (default: `yes`). It keeps system users from being purged. By default, it does not purge users whose UIDs are less than or equal to 500, but you can specify a different UID as the inclusive limit.
-
+* `users` - hash of users and their attributes 
 ```puppet
 class {'accounts':
-  users_yaml => '/path/to/users.yaml',
   purge => true,
   skip_sys_users => 1500,
+  users => {
+    testuser => {
+      state => 'present',
+      shell => '/bin/bash',
+      uid   => '10010',
+      gid   => '10010',
+      password => '*',
+      groups => ['group1','group2'],
+      nodes => '!ruby/regexp "/some-node/"'
+    }
+  }
 }
 ```
-This will remove all users that aren't managed by Puppet and whose UID is greater than 1500.
+This will add user testuser and remove all users that aren't managed by Puppet and whose UID is greater than 1500 (user managed by puppet won't be remove even if his uid is greater than 1500).
 
 ##Reference
 
@@ -55,7 +61,7 @@ coming soon
 
 ##Limitations
 
-Please note that the module was tested only on RedHat family operating systems.
+Please note that the module was tested only on RedHat and Debian family operating systems. It is rather meant to be used with puppet >= 3.x (hiera integration).
 
 ##Development
 

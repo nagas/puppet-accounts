@@ -1,12 +1,13 @@
-testuser1:
-  state: present 
-  shell: /bin/bash 
-  comment: Test User1
-  uid: '10042'
-  gid: '10042'
-  membership: minimum
-  password: '$1$.AI9lnNC$X0LwZr2hD8HvxSMTHWZCK.' 
-testuser2:
+accounts::users:
+  testuser1:
+    state: present 
+    shell: /bin/bash 
+    comment: Test User1
+    uid: '10042'
+    gid: '10042'
+    membership: minimum
+    password: '$1$.AI9lnNC$X0LwZr2hD8HvxSMTHWZCK.' 
+  testuser2:
     comment: Test User2
     uid: '10043'
     gid: '10043'
