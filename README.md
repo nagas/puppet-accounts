@@ -36,6 +36,7 @@ Available parameters are:
 * `purge` - use its with care. When set to `true` (default: `no`), it will remove all users that are not managed by Puppet.
 * `skip_sys_users` - only has effect when used with `purge => true` (default: `yes`). It keeps system users from being purged. By default, it does not purge users whose UIDs are less than or equal to 500, but you can specify a different UID as the inclusive limit.
 * `users` - hash of users and their attributes 
+
 ```puppet
 class {'accounts':
   purge => true,
