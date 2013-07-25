@@ -22,7 +22,7 @@ The puppet-accounts module lets you manage user accounts with Puppet.
 The puppet-accounts module requires:
 * [puppetlabs-stdlib](https://github.com/puppetlabs/puppetlabs-stdlib) module.
 * [pluginsync enabled](http://docs.puppetlabs.com/guides/plugins_in_modules.html#enabling-pluginsync).
-* valid [yaml file](https://github.com/nagas/puppet-accounts/blob/master/files/users_example.yaml) containing user accounts information
+* valid [yaml file](https://github.com/nagas/puppet-accounts/blob/master/examples/users.yaml) containing user accounts information
 
 ##Usage
 
