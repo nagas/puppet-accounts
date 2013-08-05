@@ -17,5 +17,5 @@ accounts::users:
     - users 
     - somegroup
     nodes:
-    - somenode.example.com
-    - !ruby/regexp '/.*\.testuser2\.example\.com$/'
+    - 'somenode001\.example\.com'
+    - 'othernode\d\d\d\.example\.com

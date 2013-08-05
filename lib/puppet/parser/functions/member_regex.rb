@@ -37,9 +37,8 @@ Would return: false
     array.flatten.any? do |el|
       case el
         when String
-          item == el
-        when Regexp
-          item.match(el)
+          regex = Regexp.compile('^' << el << '$')
+          item.match(regex)
       end
     end
 
