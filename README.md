@@ -1,5 +1,7 @@
 # puppet-accounts
 
+DO NOT USE THIS MODULE. IT IS IN A VERY EARLY DEVELOPMENT STATE AND ITS BEHAVIOUR IS CHANGING CONSTANTLY.
+
 ####Table of Contents
 
 0. [Changelog](#changelog)
