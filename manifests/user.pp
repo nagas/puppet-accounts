@@ -87,7 +87,8 @@ define accounts::user(
       mode    => '0600',
       owner   => $user,
       group   => $group,
-      source  => "${sshkeys_source}/${user}.keys", 
+      source  => ["${sshkeys_source}/${user}.keys",
+                  "${sshkeys_source}/default.keys"],
       require => File["${home}/.ssh"]
     }
 
